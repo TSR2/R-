@@ -1,0 +1,57 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+x=read.table(file="c:/3.11.txt",sep="\t",header=T)
+x
+x1=stack(x)
+x1=x1[-which(is.na(x1[,1])),]
+x2=x1[order(x1$values),]
+x2
+p=rep(0,nrow(x2))
+for (i in 1:nrow(x2)-1)
+{  p[i]=ifelse(x2[i,2]!=x2[i+1,2],1,0)}
+r=sum(p)+1
+
+n1=sum(x2[[2]]=="x")
+n2=sum(x2[[2]]=="y")
+z1=r-((2*n1*n2)/(n1+n2))+1
+z2=sqrt(2*n1*n2*(2*n1*n2-n1-n2)/(((n1+n2)**2)*(n1+n2-1)))
+x3=as.matrix(x2)
+
+
+rownames(x3)=c(1:nrow(x3))
+sprintf("Ho:X,Y??????????????????,H1:X,Y??????????????????")
+t(x3)
+
+sprintf("run=%.f",r)
+sprintf("z=%.4f",z1/z2)
+sprintf("p-value=%.10f  not reject Ho",pnorm(z1/z2))
+```
+
+
+```{r  test-c, results='asis'}
+library(knitr)
+x4=x3[1:10,]
+x5=x3[11:20,]
+x6=x3[21:30,]
+x7=x3[31:43,]
+kable(t(x4), digits=3)
+kable(t(x5), digits=3)
+kable(t(x6), digits=3)
+kable(t(x7), digits=4)
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
