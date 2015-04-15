@@ -1,0 +1,42 @@
+---
+title: "knn regession"
+output: html_document
+---
+
+
+```{r}
+library(scatterplot3d)
+library(lattice)
+library(FNN)
+x=runif(100,min=0,max=1)
+y=runif(100,min=0,max=1)
+e=rnorm(100,mean=0,sd=0.4)
+xx=seq(from=0,to=1,by=0.05)
+yy=seq(from=0,to=1,by=0.05)
+z=(sin(x)+cos(y))/2+e
+
+data1=cbind(x,y)
+data2=rbind(xx,yy)
+ggg <- expand.grid(xx,yy)
+#製造以xx,yy為軸的格子點
+zz=0
+for (i in 1:dim(ggg)[1]){
+    aa=get.knnx(data=data1,query=ggg[i,],k=3,"kd_tree")
+    zz[i]=mean(z[aa$nn.index])  
+  }
+#利用格子點內的點使用knn方法找鄰近三個點
+#並求三點的z值平均，做為z的估計值
+names(ggg)=c("x","y")
+ggg$zz=zz
+zzm=matrix(zz,ncol=length(xx))
+#將zz排進對應的矩陣內，因persp法和wireframe法z要為矩陣
+#EX:x,y各有10個,Z就要是10*10矩陣
+persp(xx,yy,zzm,theta=-45,border = "green4")
+wireframe(zzm~x*y,data=ggg,scales = list(arrows = FALSE), drape=TRUE )
+pp=scatterplot3d(ggg$x,ggg$y,ggg$z,color="red")
+pp$points3d(x,y,x,col="blue")
+
+
+```
+
+
