@@ -1,0 +1,68 @@
+---
+title: "nonparameter"
+output: html_document
+---
+
+方法1 是否對稱
+```{r}
+library(knitr)
+x=rnorm(50,mean=0,sd=1)
+y=rnorm(1000,mean=0,sd=1)
+xmean=mean(x)
+upmean=x[x>xmean]
+downmean=x[x<xmean]
+upmean
+downmean
+test=min(length(upmean),length(downmean))
+pbinom(q=test,size = 50,prob = 0.5)
+```
+方法2 是否對稱利用mean和median的差距以range標準化後進行比較
+```{r}
+xmedian=median(x)
+range=abs(range(x)[1]-range(x)[2])
+dd=abs(xmean-xmedian)/range
+dd
+#製作100個norm樣本
+ss=0
+for (i in 1:100){
+  x=rnorm(50,mean=0,sd=1)
+  ss[i]=abs(mean(x)-median(x))/abs(range(x)[1]-range(x)[2])
+}
+ss
+sort(ss)[91:100]
+dd
+```
+方法3 偏態
+```{r}
+library(TSA)
+skewness(x)
+
+```
+方法4直方圖
+
+```{r}
+hist(x)
+```
+方法1 常態性檢定shapiro.tes
+```{r}
+shapiro.test(x)
+shapiro.test(y)
+```
+方法2 常態性檢定ks.test
+```{r}
+ks.test(x,y)
+```
+方法3qqplot
+```{r}
+qqnorm(x)
+qqline(x)
+```
+
+平均數檢定 t-test
+```{r}
+t.test(x,mu=0)
+
+
+
+```
+
