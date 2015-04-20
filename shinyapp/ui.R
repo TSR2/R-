@@ -17,4 +17,5 @@ shinyUI(pageWithSidebar(
   mainPanel(h3(textOutput("caption")),
             
             plotOutput("mpgplot"))
+           
 ))
