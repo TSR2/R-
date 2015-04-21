@@ -6,8 +6,9 @@ output: html_document
 方法1 是否對稱
 ```{r}
 library(knitr)
-x=rnorm(50,mean=0,sd=1)
-y=rnorm(1000,mean=0,sd=1)
+x=scan(file="C:\\Users\\TSR\\Desktop\\無母數報告\\sss.txt")
+#x=rnorm(50,mean=0,sd=1)
+y=rnorm(1000,mean=mean(x),sd=sd(x))
 xmean=mean(x)
 upmean=x[x>xmean]
 downmean=x[x<xmean]
@@ -20,13 +21,13 @@ pbinom(q=test,size = 50,prob = 0.5)
 ```{r}
 xmedian=median(x)
 range=abs(range(x)[1]-range(x)[2])
-dd=abs(xmean-xmedian)/range
+dd=abs(xmean-xmedian)/sd(x)
 dd
 #製作100個norm樣本
 ss=0
 for (i in 1:100){
-  x=rnorm(50,mean=0,sd=1)
-  ss[i]=abs(mean(x)-median(x))/abs(range(x)[1]-range(x)[2])
+  h=rnorm(50,mean=0,sd=1)
+  ss[i]=abs(mean(h)-median(h))/sd(h)
 }
 ss
 sort(ss)[91:100]
@@ -46,7 +47,6 @@ hist(x)
 方法1 常態性檢定shapiro.tes
 ```{r}
 shapiro.test(x)
-shapiro.test(y)
 ```
 方法2 常態性檢定ks.test
 ```{r}
@@ -60,7 +60,7 @@ qqline(x)
 
 平均數檢定 t-test
 ```{r}
-t.test(x,mu=0)
+t.test(x,mu=10)
 
 
 
