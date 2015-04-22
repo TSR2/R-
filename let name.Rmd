@@ -1,0 +1,29 @@
+---
+title: "製作路徑"
+output: html_document
+---
+
+##for迴圈
+```{r}
+num=sample(c(1:20),10)
+v=c()
+for (i in 0:9){
+  aa=paste("e//",i,"-",1:num[i+1],".txt",sep="")
+  v=c(v,aa)
+}
+v
+proc.time()
+```
+##向量法
+```{r}
+sss=function(i){
+  num=num
+  aa=paste("e//",i,"-",1:num[i+1],".txt",sep="")
+  return(aa)
+}
+p=lapply(0:9,FUN=sss)
+p=do.call("c",p)
+p
+proc.time()
+```
+
