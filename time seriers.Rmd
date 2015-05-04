@@ -76,7 +76,7 @@ plot(m1,n.ahead=4,type='b')
 
 
 #分段#
-##分段##
+
 
 ```{r}
 cc=x$V3
@@ -109,7 +109,7 @@ eacf(cc2)
 
 cc=x$V3
 cc1=cc[1:95]
-cc2=cc[95:196]
+cc2=cc[96:196]
 m1=arima(cc1,order=c(1,0,0),seasonal=list(order=c(1,1,0),period=4))
 m1
 
