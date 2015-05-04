@@ -3,8 +3,8 @@ title: "nonparameter"
 output: html_document
 ---
 
-方法1 是否對稱
-```{r}
+###方法1 是否對稱,比平均數大的分為一群,剩下的分為一群###
+```{r,echo=FALSE}
 library(knitr)
 x=scan(file="C:\\Users\\TSR\\Desktop\\無母數報告\\sss.txt")
 #x=rnorm(50,mean=0,sd=1)
@@ -12,57 +12,76 @@ y=rnorm(1000,mean=mean(x),sd=sd(x))
 xmean=mean(x)
 upmean=x[x>xmean]
 downmean=x[x<xmean]
+print("比平均大")
 upmean
+print("比平均小")
 downmean
 test=min(length(upmean),length(downmean))
-pbinom(q=test,size = 50,prob = 0.5)
+p=pbinom(q=test,size = 50,prob = 0.5)
+
+print("利用二項式分布進行檢定")
+print("H0:樣本分布對平均對稱,H1:樣本分布對平均不對稱")
+paste(p,">0.05,not reject H0",sep="")
 ```
-方法2 是否對稱利用mean和median的差距以range標準化後進行比較
-```{r}
+###方法2 是否對稱利用mean和median的差距以range標準化後進行比較###
+```{r,echo=FALSE}
 xmedian=median(x)
 range=abs(range(x)[1]-range(x)[2])
 dd=abs(xmean-xmedian)/sd(x)
-dd
+
 #製作100個norm樣本
 ss=0
 for (i in 1:100){
   h=rnorm(50,mean=0,sd=1)
   ss[i]=abs(mean(h)-median(h))/sd(h)
 }
+print("100筆norm資料")
 ss
+print("將100筆norm資料計算過後,取出最大的10筆")
 sort(ss)[91:100]
 dd
+
+
+print("H0:樣本分布對平均對稱,H1:樣本分布對平均不對稱")
+
+paste(dd,"<",sort(ss)[91],",not reject H0",sep="")
 ```
-方法3 偏態
-```{r}
+###方法3 偏態###
+```{r,echo=FALSE}
 library(TSA)
 skewness(x)
 
 ```
-方法4直方圖
+###方法4直方圖###
 
-```{r}
+```{r,echo=FALSE}
 hist(x)
 ```
-方法1 常態性檢定shapiro.tes
-```{r}
-shapiro.test(x)
+###方法1 常態性檢定shapiro.tes###
+```{r,echo=FALSE}
+p=shapiro.test(x)
+
+print("H0:樣本分布為常態分布,H1:樣本分布不為常態分布")
+paste(p[2],">0.05,not reject H0",sep="")
+
 ```
-方法2 常態性檢定ks.test
-```{r}
-ks.test(x,y)
+###方法2 常態性檢定ks.test###
+```{r,echo=FALSE}
+p=ks.test(x,y)
+
+print("H0:樣本分布為常態分布,H1:樣本分布不為常態分布")
+paste(p[2],">0.05,not reject H0",sep="")
 ```
-方法3qqplot
-```{r}
+###方法3qqplot###
+```{r,echo=FALSE}
 qqnorm(x)
 qqline(x)
 ```
 
-平均數檢定 t-test
-```{r}
-t.test(x,mu=10)
-
-
-
+###平均數檢定 t-test###
+```{r,echo=FALSE}
+p=t.test(x,mu=10)
+print("H0:樣本平均等於10,H1:樣本平均大於10")
+paste(p[3],">0.05,not reject H0",sep="")
 ```
 

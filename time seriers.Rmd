@@ -3,9 +3,6 @@ title: "Untitled"
 output: html_document
 ---
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
 ```{r}
 library(TSA)
@@ -32,7 +29,7 @@ acf(cc1,lag.max=30)
 pacf(cc1,lag.max=30)
 eacf(cc1)
 ####ma2
-m1=arima(cc,order=c(0,0,2),seasonal=list(order=c(0,1,0),period=4))
+m1=arima(cc,order=c(3,0,0),seasonal=list(order=c(0,1,0),period=4))
 m1
 plot(rstandard(m1))
 abline(h=c(2,-2))
@@ -77,7 +74,93 @@ plot(m1,n.ahead=4,type='b')
 
 ```
 
-You can also embed plots, for example:
+
+#分段#
+##分段##
+
+```{r}
+cc=x$V3
+cc1=cc[1:95]
+cc2=cc[96:196]
+
+plot.ts(cc1,type="o")
+plot.ts(cc2,type="o")
+
+acf(cc1)
+pacf(cc1)
 
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+cc1=diff(cc1,lag=4)
+cc2=diff(cc2,lag=4)
+
+plot.ts(cc1)
+plot.ts(cc2)
+
+
+acf(cc1)
+pacf(cc1)
+acf(cc2)
+pacf(cc2)
+eacf(cc2)
+
+
+
+cc=x$V3
+cc1=cc[1:95]
+cc2=cc[95:196]
+m1=arima(cc1,order=c(1,0,0),seasonal=list(order=c(1,1,0),period=4))
+m1
+
+plot.ts(cc1,col="red")
+lines(fitted(m1),col="blue")
+
+plot(rstandard(m1))
+abline(h=c(2,-2))
+
+qqnorm(rstandard(m1))
+qqline(rstandard(m1))
+
+acf(rstandard(m1))
+pacf(rstandard(m1))
+plot(m1,n.ahead=20,type='b')
+
+
+acf(cc2)
+pacf(cc2)
+
+m1=arima(cc2,order=c(0,0,1),seasonal=list(order=c(1,1,0),period=4))
+plot.ts(cc2,col="red")
+lines(fitted(m1),col="blue")
+plot(rstandard(m1))
+abline(h=c(2,-2))
+
+qqnorm(rstandard(m1))
+qqline(rstandard(m1))
+
+acf(rstandard(m1))
+pacf(rstandard(m1))
+plot(m1,n.ahead=20,type='b')
+
+
+
+m1=arima(cc2,order=c(0,0,2),seasonal=list(order=c(1,1,0),period=4))
+m1
+
+plot.ts(cc2,col="red")
+lines(fitted(m1),col="blue")
+
+
+plot(rstandard(m1))
+abline(h=c(2,-2))
+
+qqnorm(rstandard(m1))
+qqline(rstandard(m1))
+
+acf(rstandard(m1))
+pacf(rstandard(m1))
+plot(m1,n.ahead=20,type='b')
+
+```
+
