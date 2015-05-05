@@ -81,7 +81,7 @@ qqline(x)
 ###平均數檢定 t-test###
 ```{r,echo=FALSE}
 z=(xmean-10)/(sd(x)/50^(1/2))
-p=1-pnrom(z)
+p=1-pnorm(z)
 print("因母體為常態，而且樣本數大於50，用z檢定")
 print("H0:樣本平均等於10,H1:樣本平均大於10")
 paste(p,">0.05,not reject H0",sep="")
