@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "time seriers"
 output: html_document
 ---
 
@@ -10,14 +10,12 @@ x=read.table(file="C:\\Users\\TSR\\Desktop\\時間序列\\4444.txt")
 
 cc=x$V3
 cc
-###原本
+cc=cc[1:30]
+###原型
 plot.ts(cc,type="o")
 acf(cc)
 pacf(cc)
 ####
-
-
-
 
 
 ###處理季節效應
@@ -28,22 +26,13 @@ acf(cc1,lag.max=30)
 
 pacf(cc1,lag.max=30)
 eacf(cc1)
-####ma2
-m1=arima(cc,order=c(3,0,0),seasonal=list(order=c(0,1,0),period=4))
-m1
-plot(rstandard(m1))
-abline(h=c(2,-2))
-
-qqnorm(rstandard(m1))
-qqline(rstandard(m1))
-
-acf(rstandard(m1))
-pacf(rstandard(m1))
-
 
 ###ar5
 m1=arima(cc,order=c(5,0,0),seasonal=list(order=c(0,1,0),period=4))
 m1
+
+plot.ts(cc,col="red")
+lines(fitted(m1),col="blue")
 plot(rstandard(m1))
 abline(h=c(2,-2))
 
@@ -56,8 +45,11 @@ plot(m1,n.ahead=20,type='b')
 
 
 ####
-m1=arima(cc,order=c(4,0,0),seasonal=list(order=c(0,1,0),period=4))
+m1=arima(cc,order=c(1,0,0),seasonal=list(order=c(0,1,0),period=4))
 m1
+plot.ts(cc,col="red")
+lines(fitted(m1),col="blue")
+
 plot(rstandard(m1))
 abline(h=c(2,-2))
 
@@ -69,47 +61,38 @@ pacf(rstandard(m1))
 
 plot(m1,n.ahead=4,type='b')
 
-
-
-
 ```
-
-
 #分段#
-
 
 ```{r}
 cc=x$V3
-cc1=cc[1:95]
+cc1=cc[1:30]
 cc2=cc[96:196]
 
 plot.ts(cc1,type="o")
-plot.ts(cc2,type="o")
+
 
 acf(cc1)
 pacf(cc1)
-
-
-
 
 cc1=diff(cc1,lag=4)
-cc2=diff(cc2,lag=4)
 
 plot.ts(cc1)
-plot.ts(cc2)
-
 
 acf(cc1)
 pacf(cc1)
-acf(cc2)
-pacf(cc2)
-eacf(cc2)
+
+
 
 
 
 cc=x$V3
 cc1=cc[1:95]
 cc2=cc[96:196]
+
+
+##季節性
+
 m1=arima(cc1,order=c(1,0,0),seasonal=list(order=c(1,1,0),period=4))
 m1
 
@@ -127,8 +110,45 @@ pacf(rstandard(m1))
 plot(m1,n.ahead=20,type='b')
 
 
+
+cc=x$V3
+cc1=cc[1:95]
+cc2=cc[96:196]
+##原模型
+m1=arima(cc1,order=c(5,0,0),seasonal=list(order=c(1,1,0),period=4)　)
+m1
+
+plot.ts(cc1,col="red")
+lines(fitted(m1),col="blue")
+
+plot(rstandard(m1))
+abline(h=c(2,-2))
+
+qqnorm(rstandard(m1))
+qqline(rstandard(m1))
+
+acf(rstandard(m1))
+pacf(rstandard(m1))
+plot(m1,n.ahead=20,type='b')
+
+
+```
+
+
+##後段##
+```{r}
+
+plot.ts(cc2,type="o")
 acf(cc2)
 pacf(cc2)
+
+cc2=diff(cc2,lag=4)
+plot.ts(cc2)
+acf(cc2)
+pacf(cc2)
+
+cc1=cc[1:95]
+cc2=cc[96:196]
 
 m1=arima(cc2,order=c(0,0,1),seasonal=list(order=c(1,1,0),period=4))
 plot.ts(cc2,col="red")
@@ -144,14 +164,30 @@ pacf(rstandard(m1))
 plot(m1,n.ahead=20,type='b')
 
 
-
-m1=arima(cc2,order=c(0,0,2),seasonal=list(order=c(1,1,0),period=4))
+##ma3
+m1=arima(cc2,order=c(0,0,3),seasonal=list(order=c(1,1,0),period=4))
 m1
 
 plot.ts(cc2,col="red")
 lines(fitted(m1),col="blue")
 
 
+plot(rstandard(m1))
+abline(h=c(2,-2))
+
+qqnorm(rstandard(m1))
+qqline(rstandard(m1))
+
+acf(rstandard(m1))
+pacf(rstandard(m1))
+plot(m1,n.ahead=20,type='b')
+
+
+##原模型
+m1=arima(cc2,order=c(5,0,0),seasonal=list(order=c(1,1,0),period=4))
+m1
+plot.ts(cc2,col="red")
+lines(fitted(m1),col="blue")
 plot(rstandard(m1))
 abline(h=c(2,-2))
 
