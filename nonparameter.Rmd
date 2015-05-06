@@ -5,7 +5,6 @@ output: html_document
 
 ###方法1 是否對稱,符號檢定###
 ```{r,echo=FALSE}
-library(knitr)
 x=scan(file="C:\\Users\\TSR\\Desktop\\無母數報告\\sss.txt")
 #x=rnorm(50,mean=0,sd=1)
 y=rnorm(1000,mean=mean(x),sd=sd(x))
@@ -21,7 +20,7 @@ p=pbinom(q=test,size = 50,prob = 0.5)
 
 print("利用二項式分布進行檢定")
 print("H0:樣本分布對平均對稱,H1:樣本分布對平均不對稱")
-paste(p,">0.05,not reject H0",sep="")
+paste("p-value=",p,">0.05,not reject H0",sep="")
 ```
 ###方法2 是否對稱利用mean和median的差距以range標準化後進行比較###
 ```{r,echo=FALSE}
@@ -66,42 +65,88 @@ print("not reject H0")
 
 ```
 
-
-
-
 ###方法5直方圖###
 
 ```{r,echo=FALSE}
 hist(x)
 print("看起來還算對稱")
 ```
-###方法1 常態性檢定shapiro.tes###
+
+###方法6 MGG test###
+```{r}
+library(lawstat)
+symmetry.test(x)
+
+```
+###方法7   Cabilio-Masaro Test###
+```{r}
+symmetry.test(x,"cabilio.masaro.test")
+
+
+```
+
+###方法8 Mira Test  ###
+```{r}
+symmetry.test(x,"mira.test")
+
+```
+
+###方法1 常態性檢定shapiro.test###
 ```{r,echo=FALSE}
 p=shapiro.test(x)
 
 print("H0:樣本分布為常態分布,H1:樣本分布不為常態分布")
-paste(p[2],">0.05,not reject H0",sep="")
+paste("p-value=",p[2],">0.05,not reject H0",sep="")
 
 ```
-###方法2 常態性檢定ks.test###
+###方法2  Anderson-Darling normality test###
+```{r}
+ library(nortest)
+ ad.test(x)
+
+```
+###方法3  Shapiro-Francia normality test ###
+```{r}
+ sf.test(x)
+```
+
+### 方法4  Cramer-von Mises normality test###
+```{r}
+cvm.test(x)
+```
+
+### 方法5    One-sample Kolmogorov-Smirnov test###
+```{r}
+ks.test(x, pnorm, 10.84792, 3.96502)
+```
+
+
+
+###方法6常態性檢定ks.test###
 ```{r,echo=FALSE}
+y=rnorm(50,mean=mean(x),sd=sd(x))
 p=ks.test(x,y)
 
 print("H0:樣本分布為常態分布,H1:樣本分布不為常態分布")
-paste(p[2],">0.05,not reject H0",sep="")
+paste("p-value=",p[2],">0.05,not reject H0",sep="")
 ```
-###方法3qqplot###
+###方法7 qqplot###
 ```{r,echo=FALSE}
 qqnorm(x)
 qqline(x)
 ```
 
-###平均數檢定 t-test###
+###方法1   平均數檢定 z檢定###
 ```{r,echo=FALSE}
 z=(xmean-10)/(sd(x)/(50^(1/2)))
 p=1-pnorm(z)
 print("因母體為常態，而且樣本數大於50，用z檢定")
 print("H0:樣本平均等於10,H1:樣本平均大於10")
-paste(p,">0.05,not reject H0",sep="")
+paste("p-value=",p,">0.05,not reject H0",sep="")
+```
+### 方法2   t.test###
+```{r}
+t.test(x, alternative=c("greater"), mu=10, conf.level=0.95)
+
 ```
 
