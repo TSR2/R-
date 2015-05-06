@@ -5,10 +5,10 @@ output: html_document
 
 ##for°j°é
 ```{r}
-num=sample(c(1:20),10)
+num=c(188,197,194,198,185,187,194,200,179,203 )
 v=c()
 for (i in 0:9){
-  aa=paste("e//",i,"-",1:num[i+1],".txt",sep="")
+  aa=paste("C:\\Users\\TSR\\Desktop\\¤å¦r¿ëÃÑ\\trainingDigits\\",i,"-",0:num[i+1],".txt",sep="")
   v=c(v,aa)
 }
 v
