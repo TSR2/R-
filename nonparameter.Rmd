@@ -3,7 +3,7 @@ title: "nonparameter"
 output: html_document
 ---
 
-###方法1 是否對稱,比平均數大的分為一群,剩下的分為一群###
+###方法1 是否對稱,符號檢定###
 ```{r,echo=FALSE}
 library(knitr)
 x=scan(file="C:\\Users\\TSR\\Desktop\\無母數報告\\sss.txt")
@@ -46,16 +46,34 @@ print("H0:樣本分布對平均對稱,H1:樣本分布對平均不對稱")
 
 paste(dd,"<",sort(ss)[91],",not reject H0",sep="")
 ```
-###方法3 偏態###
+###方法3 偏態系數###
 ```{r,echo=FALSE}
 library(TSA)
+
 skewness(x)
 
 ```
-###方法4直方圖###
+
+
+###方法4 檢定(x-μ)^3###
+```{r,echo=FALSE}
+y=(x-mean(x))^3
+z=mean(y)/sd(y)
+print("H0:(x-μ)^3=0,H1:(x-μ)^3/=0")
+print(paste("-1.96<",z,"<1.96",sep=""))
+print("not reject H0")
+
+
+```
+
+
+
+
+###方法5直方圖###
 
 ```{r,echo=FALSE}
 hist(x)
+print("看起來還算對稱")
 ```
 ###方法1 常態性檢定shapiro.tes###
 ```{r,echo=FALSE}
@@ -80,7 +98,7 @@ qqline(x)
 
 ###平均數檢定 t-test###
 ```{r,echo=FALSE}
-z=(xmean-10)/(sd(x)/50^(1/2))
+z=(xmean-10)/(sd(x)/(50^(1/2)))
 p=1-pnorm(z)
 print("因母體為常態，而且樣本數大於50，用z檢定")
 print("H0:樣本平均等於10,H1:樣本平均大於10")

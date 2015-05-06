@@ -6,7 +6,7 @@ output: html_document
 
 ```{r}
 
-x=read.table(file="C:\\Users\\TSR\\Google 雲端硬碟\\隨身碟備份\\統計計算下\\heart.dat",head=T)
+x=read.table(file="F:\\統計計算下\\heart.dat",head=T)
 attach(x)
 x$tpr1=map1/(hr1*sv1)
 x$tpr2=map2/(hr2*sv2)
