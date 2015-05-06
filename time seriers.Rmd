@@ -10,7 +10,6 @@ x=read.table(file="C:\\Users\\TSR\\Desktop\\時間序列\\4444.txt")
 
 cc=x$V3
 cc
-cc=cc[1:30]
 ###原型
 plot.ts(cc,type="o")
 acf(cc)
