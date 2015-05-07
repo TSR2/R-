@@ -1,70 +1,53 @@
 ---
-title: "Untitled"
+title: "knn predit"
 output: html_document
 ---
-
-
 ```{r}
-###########讀入訓練資料
-num=c(188,197,194,198,185,186,194,200,179,203)
-v=c()
-v1=c()
-v2=c()
-for (i in 0:9){
-  aa=paste("C:\\Users\\TSR\\Desktop\\文字辨識\\trainingDigits\\",i,"_",0:num[i+1],".txt",sep="")
-  bb=rep(i,num[i+1]+1)
-  cc=0:num[i+1]
-  v1=c(v1,bb)
-  v2=c(v2,cc)
-  v=c(v,aa)
-}
-
-xx=matrix(0,ncol=1026,nrow=1934)
-for (i in 1:length(v)){
-  x=readLines(v[i])
-  x1=strsplit(x,split="")
-  x1=unlist(x1)
-  x1=as.numeric(x1)
-  xx[i,3:1026]=x1
-}
-xx[,1]=v1
-xx[,2]=v2
-################讀入判定資料
-num=c(86,96,91,84,113,107,86,95,90,88)
-v=c()
-v1=c()
-v2=c()
-for (i in 0:9){
-  aa=paste("C:\\Users\\TSR\\Desktop\\文字辨識\\testDigits\\",i,"_",0:num[i+1],".txt",sep="")
-  bb=rep(i,num[i+1]+1)
-  cc=0:num[i+1]
-  v1=c(v1,bb)
-  v2=c(v2,cc)
-  v=c(v,aa)
-}
-v
-tt=matrix(0,ncol=1026,nrow=946)
-for (i in 1:length(v)){
-  x=readLines(v[i])
-  x1=strsplit(x,split="")
-  x1=unlist(x1)
-  x1=as.numeric(x1)
-  tt[i,3:1026]=x1
-}
-tt[,1]=v1
-tt[,2]=v2
-################開始判定
-h=0
-ff=c()
-for (i in 1:946){
-  for (j in 1:1934){
-    ff[j]=sum((tt[i,3:1026]-xx[j,3:1026])^2)
+datainput=function(max,goal){
+  data=c()
+  index1=c()
+  index2=c()
+    for (i in 0:9){
+      aa=paste(goal,i,"_",0:num[i+1],".txt",sep="")
+      bb=rep(i,num[i+1]+1)
+      cc=0:num[i+1]
+      index1=c(index1,bb)
+      index2=c(index2,cc)
+      data=c(data,aa)
     }
-  if  (xx[which.min(ff),1]==tt[i,1]) h=h+1
+#############製作所有目錄，並記錄檔案編號到index1 ,index2
+  xx=matrix(0,ncol=32*32+2,nrow=length(data))
+    for (i in 1:length(data)){
+      x=readLines(data[i])
+      x1=strsplit(x,split="")
+      x1=unlist(x1)
+      x1=as.numeric(x1)
+      xx[i,3:1026]=x1
+    }
+  xx[,1]=index1
+  xx[,2]=index2
+  return(xx)
 }
-h
+##############xx 為第一行是編號0~9 第二行為第二個編號  第三行到第1026行是將該個資料的data 以數值存入
 
-#####################
+
+#########讀入資料
+num=c(188,197,194,198,185,186,194,200,179,203)
+train=datainput(max=num,goal="C:\\Users\\TSR\\Desktop\\trainingDigits\\")
+num=c(86,96,91,84,113,107,86,95,90,88)
+test=datainput(max=num,goal="C:\\Users\\TSR\\Desktop\\testDigits\\")
+#################判斷開始
+count=0
+dist=c()
+for (i in 1:dim(test)[1]){
+  for (j in 1:dim(train)[1]){
+    dist[j]=sum((test[i,3:1026]-train[j,3:1026])^2)
+    }
+  if  (train[which.min(dist),1]==test[i,1]) count=count+1
+}
+per=count/dim(test)[1]
+sprintf("判斷成功率為%s",per)
+
 
 
 ```
