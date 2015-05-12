@@ -11,9 +11,6 @@ x=read.table(file="C:\\Users\\TSR\\Desktop\\時間序列\\4444.txt")
 cc=x$V3
 cc
 
-=======
-
-
 ###原型
 plot.ts(cc,type="o")
 acf(cc)
@@ -30,11 +27,12 @@ acf(cc1,lag.max=30)
 pacf(cc1,lag.max=30)
 eacf(cc1)
 
+mse=list()
 ###ar5
 m1=arima(cc,order=c(5,0,0),seasonal=list(order=c(0,1,0),period=4))
 m1
-
-plot.ts(cc,col="red")
+fitted(m1)
+plot(cc,col="red",type="l")
 lines(fitted(m1),col="blue")
 plot(rstandard(m1))
 abline(h=c(2,-2))
@@ -46,6 +44,8 @@ acf(rstandard(m1))
 pacf(rstandard(m1))
 plot(m1,n.ahead=20,type='b')
 
+
+mse[1][1]=sum((unlist(m1[8]))^2)/length(cc)
 
 ####
 m1=arima(cc,order=c(1,0,0),seasonal=list(order=c(0,1,0),period=4))
@@ -63,7 +63,7 @@ acf(rstandard(m1))
 pacf(rstandard(m1))
 
 plot(m1,n.ahead=4,type='b')
-
+mse[[1]][2]=sum((unlist(m1[8]))^2)/length(cc)
 ```
 #分段#
 
@@ -86,7 +86,7 @@ acf(cc1)
 pacf(cc1)
 
 cc=x$V3
-cc1=cc[1:88]
+cc1=cc[1:95]
 cc2=cc[96:196]
 
 
@@ -108,7 +108,7 @@ acf(rstandard(m1))
 pacf(rstandard(m1))
 plot(m1,n.ahead=20,type='b')
 
-sum((unlist(m1[8]))^2)
+mse[2][1]=sum((unlist(m1[8]))^2)/length(cc1)
 
 cc=x$V3
 cc1=cc[1:95]
@@ -130,7 +130,7 @@ acf(rstandard(m1))
 pacf(rstandard(m1))
 plot(m1,n.ahead=20,type='b')
 
-sum((unlist(m1[8]))^2)
+mse[[2]][2]=sum((unlist(m1[8]))^2)/length(cc1)
 ```
 
 
@@ -162,7 +162,7 @@ acf(rstandard(m1))
 pacf(rstandard(m1))
 plot(m1,n.ahead=20,type='b')
 
-sum((unlist(m1[8]))^2)
+mse[3][1]=sum((unlist(m1[8]))^2)/length(cc2)
 ##ma3
 m1=arima(cc2,order=c(0,0,3),seasonal=list(order=c(1,1,0),period=4))
 m1
@@ -180,13 +180,13 @@ qqline(rstandard(m1))
 acf(rstandard(m1))
 pacf(rstandard(m1))
 plot(m1,n.ahead=20,type='b')
-sum((unlist(m1[8]))^2)
-library(forecast)
+mse[[3]][2]=sum((unlist(m1[8]))^2)/length(cc2)
+
 ##原模型
 m1=arima(cc2,order=c(5,0,0),seasonal=list(order=c(1,1,0),period=4))
 m1
-ooo=forecast(m1,h=10)
-plot(ooo)
+
+
 plot.ts(cc2,col="red")
 lines(fitted(m1),col="blue")
 plot(rstandard(m1))
@@ -198,6 +198,8 @@ qqline(rstandard(m1))
 acf(rstandard(m1))
 pacf(rstandard(m1))
 plot(m1,n.ahead=20,type='b')
-sum((unlist(m1[8]))^2)
+
+mse[[3]][3]=sum((unlist(m1[8]))^2)/length(cc2)
+mse
 ```
 
