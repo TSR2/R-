@@ -16,7 +16,11 @@ plot.ts(cc,type="o")
 acf(cc)
 pacf(cc)
 ####
+```
 
+
+
+```{r}
 
 ###處理季節效應
 cc1=diff(log(cc),lag=4)
