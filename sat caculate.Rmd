@@ -14,15 +14,17 @@ plot(~id+time+sv1+hr1+fbf1+map1)
 plot(~id+time+sv1+hr1+fbf1+map1,data=x[id=="ht1",])
 
 par(mfcol = c(3,2))
-for (j in c("sv1","hr1","fbf1","map1"))
+for (j in c("sv1","hr1","fbf1","map1")){
   for (i in 1:6){
     plot(get(j)~time,data=x[id==paste("ht",i,sep=""),],main=paste(j,"---ht",i,sep=""))
   }
+}
 par(mfcol = c(3,3))
-for (j in c("sv1","hr1","fbf1","map1"))
+for (j in c("sv1","hr1","fbf1","map1")){
   for (i in 1:9){
     plot(get(j)~time,data=x[id==paste("nc",i,sep=""),],main=paste(j,"---nc",i,sep=""))
   }
+}
 par(mfcol = c(3,2))
 for (i in 1:6){
   plot(tpr1~time,data=x[id==paste("ht",i,sep=""),])
@@ -42,9 +44,30 @@ table(x[sv1>70,1])
 
 
 
-#######
+#####################################3
 
+par(mfcol = c(3,2))
+for (j in c("sv2","hr2","fbf2","map2")){
+  for (i in 1:6){
+    plot(get(j)~time,data=x[id==paste("ht",i,sep=""),],main=paste(j,"---ht",i,sep=""))
+  }
+}
+par(mfcol = c(3,3))
+for (j in c("sv2","hr2","fbf2","map2")){
+  for (i in 1:9){
+    plot(get(j)~time,data=x[id==paste("nc",i,sep=""),],main=paste(j,"---nc",i,sep=""))
+  }
+}
+par(mfcol = c(3,2))
+for (i in 1:6){
+  plot(tpr2~time,data=x[id==paste("ht",i,sep=""),])
+}
+for (i in 1:6){
+  plot(tpr2~time,data=x[id==paste("ht",i,sep=""),])
+}
 
+plot(~id+time+sv2+hr2+fbf2+map2,data=x[grep("ht",id),])
+plot(~id+time+sv2+hr2+fbf2+map2,data=x[grep("nc",id),])
 
 ######
 
