@@ -1,0 +1,76 @@
+---
+title: "cart"
+output: html_document
+---
+
+
+```{r}
+datainput=function(max,goal){
+  data=c()
+  index1=c()
+  index2=c()
+    for (i in 0:9){
+      aa=paste(goal,i,"_",0:num[i+1],".txt",sep="")
+      bb=rep(i,num[i+1]+1)
+      cc=0:num[i+1]
+      index1=c(index1,bb)
+      index2=c(index2,cc)
+      data=c(data,aa)
+    }
+#############製作所有目錄，並記錄檔案編號到index1 ,index2
+  xx=matrix(0,ncol=32*32+2,nrow=length(data))
+    for (i in 1:length(data)){
+      x=readLines(data[i])
+      x1=strsplit(x,split="")
+      x1=unlist(x1)
+      x1=as.numeric(x1)
+      xx[i,3:1026]=x1
+    }
+  xx[,1]=index1
+  xx[,2]=index2
+  return(xx)
+}
+##############xx 為第一行是編號0~9 第二行為第二個編號  第三行到第1026行是將該個資料的data 以數值存入
+
+
+#########讀入資料
+num=c(188,197,194,198,185,186,194,200,179,203)
+train=datainput(max=num,goal="C:\\Users\\TSR\\Desktop\\文字辨識\\trainingDigits\\")
+num=c(86,96,91,84,113,107,86,95,90,88)
+test=datainput(max=num,goal="C:\\Users\\TSR\\Desktop\\文字辨識\\testDigits\\")
+######建立一個函數，將32*32筆資料，分成8組，分別另為x1~x8，並記錄每組內1的個數
+trans=function(max,data,newname){
+  newname=matrix(0,ncol=9,nrow=max)
+  newname[,1]=data[,1]
+  for (j in 1:max){
+    for (i in 1:8){
+      newname[j,i+1]=sum(data[j,(32*4*(i-1)+2):(32*4*i+1)])
+    }
+  }
+  newname=as.data.frame(newname)
+  names(newname)=c("index1",paste("x",1:8,sep=""))
+  return(newname)
+}
+#######將資料進行轉換
+newtrain=trans(1934,train,newtrain)
+newtest=trans(946,test,newtest)
+####將0~9換成字符類型，否則後面會有問題
+newtrain[,1]=as.character(newtrain[,1])
+newtest[,1]=as.character(newtest[,1])
+library(rpart)
+#####建立預測模型
+model=rpart(index1~.,data=newtrain)
+par(mai=rep(0.1,4))
+plot(model)
+text(model)
+####預測
+predict=predict(model,newtest[,2:9])
+
+pre=apply(predict,MARGIN = 1,FUN = which.max)
+pre=pre-1
+######正確率
+sum(pre==test[,1])/length(test[,1])
+
+```
+
+
