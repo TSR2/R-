@@ -3,7 +3,8 @@ title: "time seriers"
 output: html_document
 ---
 
-
+####這是一個有關國民儲蓄率的資料
+####儲蓄率概述:(國民所得-國民消費)/國民所得
 ```{r,echo=FALSE}
 library(TSA)
 x=read.table(file="C:\\Users\\TSR\\Desktop\\共享資料\\4444.txt")
