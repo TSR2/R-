@@ -39,32 +39,44 @@ train=datainput(max=num,goal="C:\\Users\\TSR\\Desktop\\文字辨識\\trainingDigits\
 num=c(86,96,91,84,113,107,86,95,90,88)
 test=datainput(max=num,goal="C:\\Users\\TSR\\Desktop\\文字辨識\\testDigits\\")
 ######建立一個函數，將32*32筆資料，分成8組，分別另為x1~x8，並記錄每組內1的個數
-trans=function(max,data,newname){
-  newname=matrix(0,ncol=9,nrow=max)
+trans=function(max,data,newname,sp){
+  newname=matrix(0,ncol=sp+1,nrow=max)
   newname[,1]=data[,1]
   for (j in 1:max){
-    for (i in 1:8){
-      newname[j,i+1]=sum(data[j,(32*4*(i-1)+2):(32*4*i+1)])
+    for (i in 1:sp){
+      newname[j,i+1]=sum(data[j,(32*32/sp*(i-1)+2):(32*32/sp*i+1)])
     }
   }
   newname=as.data.frame(newname)
-  names(newname)=c("index1",paste("x",1:8,sep=""))
+  names(newname)=c("index1",paste("x",1:sp,sep=""))
   return(newname)
 }
 #######將資料進行轉換
-newtrain=trans(1934,train,newtrain)
-newtest=trans(946,test,newtest)
-####將0~9換成字符類型，否則後面會有問題
+newtrain=trans(dim(train)[1],train,newtrain,8)
+newtest=trans(dim(test)[1],test,newtest,8)
+##############以1024個點下去找決策樹
+#newtrain=train[,-2]
+#newtest=test[,-2]
+#newtrain=as.data.frame(newtrain)
+#names(newtrain)=c("index1",paste("x",1:1024,sep=""))
+#newtest=as.data.frame(newtest)
+#names(newtest)=c("index1",paste("x",1:1024,sep=""))
+#################
+###將0~9換成字符類型，否則後面會有問題
 newtrain[,1]=as.character(newtrain[,1])
 newtest[,1]=as.character(newtest[,1])
 library(rpart)
 #####建立預測模型
 model=rpart(index1~.,data=newtrain)
+
 par(mai=rep(0.1,4))
 plot(model)
 text(model)
+
+library(maptree)
+draw.tree(model)
 ####預測
-predict=predict(model,newtest[,2:9])
+predict=predict(model,newtest[,2:dim(newtest)[2]])
 
 pre=apply(predict,MARGIN = 1,FUN = which.max)
 pre=pre-1
