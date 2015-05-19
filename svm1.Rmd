@@ -1,10 +1,12 @@
 ---
-title: "cart"
+title: "Untitled"
 output: html_document
 ---
 
 
+
 ```{r}
+
 datainput=function(max,goal){
   data=c()
   index1=c()
@@ -52,37 +54,43 @@ trans=function(max,data,newname,sp){
   return(newname)
 }
 #######盢戈秈︽锣传
-newtrain=trans(dim(train)[1],train,newtrain,8)
-newtest=trans(dim(test)[1],test,newtest,8)
-##############1024翴т∕郸攫
-#newtrain=train[,-2]
-#newtest=test[,-2]
-#newtrain=as.data.frame(newtrain)
-#names(newtrain)=c("index1",paste("x",1:1024,sep=""))
-#newtest=as.data.frame(newtest)
-#names(newtest)=c("index1",paste("x",1:1024,sep=""))
-#################
-###盢0~9传Θ才摸玥穦Τ拜肈
-newtrain[,1]=as.character(newtrain[,1])
-newtest[,1]=as.character(newtest[,1])
-library(rpart)
-#####ミ箇代家
-model=rpart(index1~.,data=newtrain)
+newtrain=trans(dim(train)[1],train,newtrain,32)
+newtest=trans(dim(test)[1],test,newtest,32)
 
-par(mai=rep(0.1,4))
-plot(model)
-text(model)
-
-library(maptree)
-draw.tree(model)
+###盢0~9传Θfactor摸玥穦Τ拜肈
+newtrain[,1]=as.factor(newtrain[,1])
+newtest[,1]=as.factor(newtest[,1])
+library(e1071)
+#####ミ箇代家  –羆讽x跑计
+model=svm(index1~.,data=newtrain)
+model
 ####箇代
 predict=predict(model,newtest[,2:dim(newtest)[2]])
 
-pre=apply(predict,MARGIN = 1,FUN = which.max)
-pre=pre-1
 ######タ絋瞯
-sum(pre==test[,1])/length(test[,1])
+sum(predict==newtest[,1])/length(test[,1])
+
+
+################盢﹍戈メsvm
+newtrain=as.data.frame(train[,-2])
+newtest=as.data.frame(test[,-2])
+
+newtrain[,1]=as.factor(newtrain[,1])
+newtest[,1]=as.factor(newtest[,1])
+colnames(newtrain)=c("index",paste("x",1:1024,sep=""))
+colnames(newtest)=c("index",paste("x",1:1024,sep=""))
+library(e1071)
+#####ミ箇代家
+model=svm(index~.,data=newtrain)
+model
+####箇代
+predict=predict(model,newtest[,2:dim(newtest)[2]])
+######タ絋瞯
+sum(predict==newtest[,1])/length(test[,1])
+
 
 ```
+
+
 
 
