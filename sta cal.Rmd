@@ -1,0 +1,22 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+
+
+```{r}
+x=read.table(file="D:\\統計計算下\\gestation.dat",sep=":",head=T)
+x$G.L.
+x$COMM
+x$DW
+x$R..GL
+table(x$MOM,x$DW)
+x[x$MOM=="1089",]
+head(x)
+as.numeric(x$DOB)-as.numeric(x$DOC)
+attach(x)
+f=lm(G.L.~MA+M..WT)
+summary(f)
+```
+
