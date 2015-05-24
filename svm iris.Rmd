@@ -1,0 +1,14 @@
+---
+title: "svm iris predict"
+output: html_document
+---
+```{r}
+num=sample(1:150,100)
+train=iris[num,]
+test=iris[-num,]
+library(e1071)
+model=svm(Species~.,data=train)
+pre=predict(model,test)
+table(pre,test$Species)
+```
+
