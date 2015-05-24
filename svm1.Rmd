@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "svm"
 output: html_document
 ---
 
@@ -37,9 +37,9 @@ datainput=function(max,goal){
 
 #########讀入資料
 num=c(188,197,194,198,185,186,194,200,179,203)
-train=datainput(max=num,goal="C:\\Users\\tsr\\Desktop\\程式\\trainingDigits\\")
+train=datainput(max=num,goal="C:\\Users\\TSR\\Desktop\\文字辨識\\trainingDigits\\")
 num=c(86,96,91,84,113,107,86,95,90,88)
-test=datainput(max=num,goal="C:\\Users\\tsr\\Desktop\\程式\\testDigits\\")
+test=datainput(max=num,goal="C:\\Users\\TSR\\Desktop\\文字辨識\\testDigits\\")
 ######建立一個函數，將32*32筆資料，分成8組，分別另為x1~x8，並記錄每組內1的個數
 trans=function(max,data,newname,sp){
   newname=matrix(0,ncol=sp+1,nrow=max)
@@ -63,13 +63,14 @@ newtest[,1]=as.factor(newtest[,1])
 library(e1071)
 #####建立預測模型  以每列加總值當作x變數
 model=svm(index1~.,data=newtrain)
-model
 ####預測
 predict=predict(model,newtest[,2:dim(newtest)[2]])
 
-######正確率
+######以每列加總當作x變數下的正確率
 sum(predict==newtest[,1])/length(test[,1])
-
+```
+###以每列加總當作x變數下的正確率
+```{r}
 
 ################將原始資料丟入svm判別
 newtrain=as.data.frame(train[,-2])
@@ -85,12 +86,10 @@ model=svm(index~.,data=newtrain)
 model
 ####預測
 predict=predict(model,newtest[,2:dim(newtest)[2]])
-######正確率
+######以每筆資料當作x變數的正確率
 sum(predict==newtest[,1])/length(test[,1])
-
-
 ```
-
+###以每筆資料當作x變數的正確率
 
 
 
