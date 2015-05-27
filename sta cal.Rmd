@@ -16,7 +16,41 @@ x[x$MOM=="1089",]
 head(x)
 as.numeric(x$DOB)-as.numeric(x$DOC)
 attach(x)
-f=lm(G.L.~MA+M..WT)
+f=lm(G.L.~MA+M..WT+B)
 summary(f)
+
+
+comchisq=function(data){
+  d=table(data,S)
+  aaa=d[,4:5]
+  dim(aaa)
+  aaa=as.matrix(aaa)
+  ff=rep(0,dim(aaa)[1])
+  aaa=cbind(aaa,ff)
+  for (i in 1:dim(aaa)[1]){
+    aaa[i,3]=aaa[i,1]+aaa[i,2]
+  }
+
+  v=apply(X = aaa,MARGIN = 2,FUN = sum)
+
+  g=0
+  for (i in 1:dim(aaa)[1] ){
+    for (j in 1:2){
+      g=g+(aaa[i,j]-(aaa[i,3]+v[j]/v[3]))^2/(aaa[i,3]+v[j]/v[3])
+    }
+  } 
+  k=c(g,dim(aaa)[1])
+  return(k)
+}
+D=comchisq(DAD)
+M=comchisq(MOM)
+
+
+D
+M
+qchisq(p = 0.95,df = 134)
+qchisq(p = 0.95,df = 236)
+pchisq(q = g,df=236)
+chisq.test(aaa[,1:2])
 ```
 
