@@ -6,29 +6,58 @@ output: html_document
 
 ```{r}
 
-x=read.table(file="F:\\統計計算下\\heart.dat",head=T)
+x=read.table(file="o:\\統計計算下\\heart.dat",head=T)
 attach(x)
 x$tpr1=map1/(hr1*sv1)
 x$tpr2=map2/(hr2*sv2)
-plot(~id+time+sv1+hr1+fbf1+map1)
-plot(~id+time+sv1+hr1+fbf1+map1,data=x[id=="ht1",])
+plot(~id+time+sv1+hr1+fbf1+map1,main="time和所有變數的散佈圖")
 
+```
+
+###看不出有甚麼特別的趨勢，改用單獨測試者的資料畫圖
+```{r}
+
+plot(~id+time+sv1+hr1+fbf1+map1,data=x[id=="ht1",],main="ht1受測者的time和其餘變數散佈圖")
+```
+
+###可看出time越高hr1有越高的趨勢，當time>0以後fbf1和map1有突然增加的情形
+###下面分別對每個換過心臟的受測者單獨畫圖
+```{r,echo=FALSE}
 par(mfcol = c(3,2))
 for (j in c("sv1","hr1","fbf1","map1")){
   for (i in 1:6){
     plot(get(j)~time,data=x[id==paste("ht",i,sep=""),],main=paste(j,"---ht",i,sep=""))
   }
 }
+
+```
+
+###time>0時sv1,hr1,fbf1,map1都有增加的趨勢
+###下面對未換過心臟的測試者分別畫圖
+```{r}
 par(mfcol = c(3,3))
 for (j in c("sv1","hr1","fbf1","map1")){
   for (i in 1:9){
     plot(get(j)~time,data=x[id==paste("nc",i,sep=""),],main=paste(j,"---nc",i,sep=""))
   }
 }
+
+```
+
+###time=0時，sv1,fbf1有跳高的狀況
+###time>0，hr1有降低的趨勢
+###time>0,map1有增加的趨勢
+```{r}
 par(mfcol = c(3,2))
 for (i in 1:6){
   plot(tpr1~time,data=x[id==paste("ht",i,sep=""),])
 }
+
+```
+
+###已有換過心臟的人來說，蹲下會使tpr1降低，但隨著時間的持續會慢慢回復
+```{r}
+par(mfcol = c(3,2))
 for (i in 1:6){
   plot(tpr2~time,data=x[id==paste("ht",i,sep=""),])
 }
