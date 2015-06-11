@@ -1,13 +1,16 @@
 ---
-title: "Untitled"
+title: "case1 report"
 output: html_document
 ---
 
 
 ```{r}
 
-x=read.table(file="o:\\統計計算下\\heart.dat",head=T)
+x=read.table(file="e:\\統計計算下\\heart.dat",head=T)
 attach(x)
+d=grepl("ht",x$id)
+x$group=2
+x$group[d]=1
 x$tpr1=map1/(hr1*sv1)
 x$tpr2=map2/(hr2*sv2)
 plot(~id+time+sv1+hr1+fbf1+map1,main="time和所有變數的散佈圖")
@@ -28,11 +31,15 @@ for (j in c("sv1","hr1","fbf1","map1")){
   for (i in 1:6){
     plot(get(j)~time,data=x[id==paste("ht",i,sep=""),],main=paste(j,"---ht",i,sep=""))
   }
+  print("time>=0:")
+ print(summary(get(j)[x$time>=0 & grepl("ht",x$id) ]))
+ print("time<0:")
+  print(summary(get(j)[x$time<0 & grepl("ht",x$id)] ))
 }
 
 ```
 
-###time>0時sv1,hr1,fbf1,map1都有增加的趨勢
+###time>0時sv1,fbf1,map1都有增加的趨勢
 ###下面對未換過心臟的測試者分別畫圖
 ```{r}
 par(mfcol = c(3,3))
@@ -40,17 +47,21 @@ for (j in c("sv1","hr1","fbf1","map1")){
   for (i in 1:9){
     plot(get(j)~time,data=x[id==paste("nc",i,sep=""),],main=paste(j,"---nc",i,sep=""))
   }
+    print("time>=0:")
+ print(summary(get(j)[x$time>=0 & grepl("nc",x$id)]))
+ print("time<0:")
+  print(summary(get(j)[x$time<0 & grepl("nc",x$id)]))
 }
 
 ```
 
 ###time=0時，sv1,fbf1有跳高的狀況
-###time>0，hr1有降低的趨勢
-###time>0,map1有增加的趨勢
+###time>0,sv1,map1有增加的趨勢
 ```{r}
 par(mfcol = c(3,2))
 for (i in 1:6){
   plot(tpr1~time,data=x[id==paste("ht",i,sep=""),])
+  
 }
 
 ```
@@ -62,15 +73,46 @@ for (i in 1:6){
   plot(tpr2~time,data=x[id==paste("ht",i,sep=""),])
 }
 
+```
+
+###沒換過心臟的人來說，蹲下會使tpr1降低，但隨著時間的持續會慢慢回復
+###以下找可以判別出有無換過心臟的判別法
+```{r}
 plot(~id+time+sv1+hr1+fbf1+map1,data=x[grep("ht",id),])
 plot(~id+time+sv1+hr1+fbf1+map1,data=x[grep("nc",id),])
 
+```
 
-###3
+
+```{r}
+plot(time~hr1,pch=21,bg=x$group+2,main="hr1",xlim=c(40,120))
+legend(x =40,y=-20,fill = c("green","blue"),legend = c("ht","nc"))
 table(x[hr1>100,1])
-table(x[sv1>60,1])
+```
+
+###可看出當hr>100以後，大部分都是有換過心臟的患者
+
+```{r}
+plot(time~fbf1,pch=21,bg=x$group+2,main="fbf1",)
+legend(x =7,y=120,fill = c("green","blue"),legend = c("ht","nc"))
+
+
+plot(time~map1,pch=21,bg=x$group+2,main="map1")
+legend(x =145,y=-20,fill = c("green","blue"),legend = c("ht","nc"))
+
+
+plot(time~sv1,pch=21,bg=x$group+2,main="sv1",xlim=c(0,110))
+legend(x =0,y=-30,fill = c("green","blue"),legend = c("ht","nc"))
+
 table(x[sv1>70,1])
 
+```
+###當sv1>70以後，大部分的資料都是沒換過心臟的受測者
+###故hr>100 和 sv1>70是不錯的判斷方法
+
+#一一一一一一一一一我是分隔線一一一一一一一一一一一
+###以下為第二次測試的資料
+```{r}
 
 
 #####################################3
