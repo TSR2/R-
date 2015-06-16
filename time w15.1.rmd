@@ -6,10 +6,8 @@ output: html_document
 
 ```{r}
 
-library(tseries)
 library(fGarch)
-library(TSA)
-library(PerformanceAnalytics)
+
 x=read.table(file="C:\\Users\\tsr\\Desktop\\新增資料夾\\w15.txt")
 x
 names(x)=c("year","month","y","x")
@@ -22,7 +20,6 @@ plot.ts(e)
 acf(e)
 pacf(e)
 model1=arima(x = e,order = c(1,0,0))
-names(model1)
 
 #e1=e[-46]
 #e1=c(0,e1)
@@ -36,10 +33,6 @@ pacf(nt)
 
 model2=arima(x=nt,order=c(1,0,0))
 model2
-
-g1=garch(nt,)
-summary(g1)
-
 
 v=data.frame()
 v[1,1]=lmmodel$coef[1]
@@ -56,8 +49,6 @@ v
 
 
 #garch01.sim=garch.sim(alpha=c(.01,.9),n=500)
-library(rugarch)
-
 #aaa=garchSpec(model=list(ar=0.5278,alpha=0.3654,beta=0),cond.dist = "norm")
 #bbb=garchSim(aaa, n = 46)
 #bbb

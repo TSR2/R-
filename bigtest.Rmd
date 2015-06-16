@@ -22,10 +22,10 @@ library(e1071)
 model=svm(kyphosis~.,data=x)
 pre=predict(model,data=x[,2:4])
 per=sum(pre==x[,1])/length(x[,1])
-sprintf("正確率為%s%%",per)
+sprintf("正確率為%s%%",per*100)
 ```
 
-
+###logist
 ```{r}
 model=glm(kyphosis~.,data=x,family = "binomial")
 
@@ -34,14 +34,13 @@ pre[pre>0.5]="present"
 pre[pre<=0.5]="absent"
 
 per=sum(pre==x$kyphosis)/length(x[,1])
-sprintf("正確率為%s%%",per)
+sprintf("正確率為%s%%",per*100)
 ```
 ###2
 ```{r}
 x=read.table(file="C:\\Users\\tsr\\Desktop\\2222\\test2-1.txt")
 y=read.table(file="C:\\Users\\tsr\\Desktop\\2222\\test2-2.txt")
 model=kmeans(x = x,centers = 4)
-model$cluster
 x[,4]=model$cluster
 x[,5]=y
 x=x[order(x[,4]),]
@@ -59,17 +58,25 @@ dd=x[,4]
 names(dd)=x[,5]
 
 hc = hclust(dist(dd))
-plot(hc)
+plot(hc,sub=" ", axes = FALSE,main=" ")
 ```
 
 
 ###3
+###a
 ```{r}
 ###a
 x=read.table(file="C:\\Users\\tsr\\Desktop\\2222\\test3.txt",sep=",")
+```
+###b
+```{r}
 ###b
 plot(x$V4~x$V5,pch=21,bg=x$V1)
 
+```
+
+###c
+```{r}
 ###c
 library(MASS)
 for (i in 2:dim(x)[2]){
@@ -78,16 +85,24 @@ for (i in 2:dim(x)[2]){
 
 
 ld=lda(x$V1~.,data=x)
-
+z=predict(ld)
+per=sum(z$class==x[,1])/length(x[,1])
+sprintf("正確率為%s%%",per*100)
+```
+###d
+```{r}
 coef=ld[[4]]
 mx=as.matrix(x)
 newvar=mx[,2:14] %*% coef
 newvar=cbind(newvar,x[,1])
 
-z=predict(ld)
-per=sum(z$class==x[,1])/length(x[,1])
-sprintf("正確率為%s%%",per)
 plot(newvar[,1]~newvar[,2],pch=21,bg=z$class)
+
+```
+
+###e
+```{r}
+
 mean1=mean(newvar[newvar[,3]==1,1])
 mean2=mean(newvar[newvar[,3]==2,1])
 mean3=mean(newvar[newvar[,3]==3,1])
@@ -99,7 +114,7 @@ newvar[newvar[,1]<rule1,4]=1
 newvar[rule1<=newvar[,1]& newvar[,1] <=rule2,4]=2
 newvar[newvar[,1]>rule2,4]=3
 per=sum(newvar[,3]==newvar[,4])/length(newvar[,1])
-sprintf("正確率為%s%%",per)
+sprintf("正確率為%s%%",per*100)
 ######
 
 ```

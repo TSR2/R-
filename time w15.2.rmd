@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "15.2"
 output: html_document
 ---
 ```{r}
@@ -7,7 +7,6 @@ output: html_document
 v=scan(file="C:\\Users\\tsr\\Desktop\\新增資料夾\\w6.txt")
 v
 h1=arima(x = v,order=c(0,1,1))
-names(h1)
 h1
 hh=h1[[8]]
 hh=hh^2
@@ -29,7 +28,5 @@ rownames(dd)=c("φ1","θ1","θ2")
 dd
 
 
-
-aaa=garchSpec(model=list(ar=0.5278,alpha=0.3654,beta=0),cond.dist = "norm")
 
 ```
