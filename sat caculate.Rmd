@@ -87,10 +87,10 @@ plot(~id+time+sv1+hr1+fbf1+map1,data=x[grep("nc",id),])
 ```{r}
 plot(time~hr1,pch=21,bg=x$group+2,main="hr1",xlim=c(40,120))
 legend(x =40,y=-20,fill = c("green","blue"),legend = c("ht","nc"))
-table(x[hr1>100,1])
+table(x[hr1>90,1])
 ```
 
-###讽hr>100场だ常琌Τ传筁み纽眞
+###讽hr>90场だ常琌Τ传筁み纽眞
 
 ```{r}
 plot(time~fbf1,pch=21,bg=x$group+2,main="fbf1",)
@@ -108,7 +108,7 @@ table(x[sv1>70,1])
 
 ```
 ###讽sv1>70场だ戈常琌⊿传筁み纽代
-###珿hr>100 ㎝ sv1>70琌ぃ岿耞よ猭
+###珿hr>90 ㎝ sv1>70琌ぃ岿耞よ猭
 
 #и琌だ筳絬
 ###材Ω代刚戈

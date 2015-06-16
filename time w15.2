@@ -1,0 +1,35 @@
+---
+title: "Untitled"
+output: html_document
+---
+```{r}
+
+v=scan(file="C:\\Users\\tsr\\Desktop\\新增資料夾\\w6.txt")
+v
+h1=arima(x = v,order=c(0,1,1))
+names(h1)
+h1
+hh=h1[[8]]
+hh=hh^2
+acf(hh)
+pacf(hh)
+h2=arima(x = hh,order = c(2,0,0))
+h2[1]
+
+dd=data.frame()
+dd[1,1]=h1$coef[1]
+dd[1,2]=h1$var.coef[1,1]^(1/2)
+dd[2,1]=h2$coef[1]
+dd[2,2]=h2$var.coef[1,1]^(1/2)
+dd[3,1]=h2$coef[2]
+dd[3,2]=h2$var.coef[2,2]^(1/2)
+colnames(dd)=c("coef","std")
+rownames(dd)=c("φ1","θ1","θ2")
+
+dd
+
+
+
+aaa=garchSpec(model=list(ar=0.5278,alpha=0.3654,beta=0),cond.dist = "norm")
+
+```

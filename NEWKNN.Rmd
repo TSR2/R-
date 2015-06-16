@@ -1,0 +1,66 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+
+
+
+
+
+```{r}
+datainput=function(max,goal){
+  data=c()
+  index1=c()
+  index2=c()
+    for (i in 0:9){
+      aa=paste(goal,i,"_",0:num[i+1],".txt",sep="")
+      bb=rep(i,num[i+1]+1)
+      cc=0:num[i+1]
+      index1=c(index1,bb)
+      index2=c(index2,cc)
+      data=c(data,aa)
+    }
+#############製作所有目錄，並記錄檔案編號到index1 ,index2
+  xx=matrix(0,ncol=32*32+2,nrow=length(data))
+    for (i in 1:length(data)){
+      x=readLines(data[i])
+      x1=strsplit(x,split="")
+      x1=unlist(x1)
+      x1=as.numeric(x1)
+      xx[i,3:1026]=x1
+    }
+  xx[,1]=index1
+  xx[,2]=index2
+  return(xx)
+}
+##############xx 為第一行是編號0~9 第二行為第二個編號  第三行到第1026行是將該個資料的data 以數值存入
+
+
+#########讀入資料
+num=c(188,197,194,198,185,186,194,200,179,203)
+train=datainput(max=num,goal="C:\\Users\\tsr\\Desktop\\程式\\trainingDigits\\")
+num=c(86,96,91,84,113,107,86,95,90,88)
+test=datainput(max=num,goal="C:\\Users\\tsr\\Desktop\\程式\\testDigits\\")
+#################判斷開始
+train=as.data.frame(train)
+test=as.data.frame(test)
+class(test)
+count=0
+k=3
+library(FNN)
+for (i in 1:dim(test)[1]){
+    aa=get.knnx(data=train[,3:1026],query=test[i,3:1026],k=k,"kd_tree")
+    pre=train[aa$nn.index,1]
+    gggg=table(pre)
+    p=names(gggg)[which.max(gggg)]
+    if  (p==test[i,1]) count=count+1
+    }
+count
+
+per=count/dim(test)[1]
+sprintf("判斷成功率為%s",per)
+
+```
+
+

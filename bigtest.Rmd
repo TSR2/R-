@@ -1,0 +1,105 @@
+---
+title: "test"
+output: html_document
+---
+
+
+###cart
+```{r}
+library(rpart)
+x=kyphosis
+colnames(x)=c("kyphosis","age","number","start")
+model=rpart(kyphosis~.,data=x)
+par(mai=rep(0.1,4))
+plot(model)
+text(model)
+```
+
+
+###svm
+```{r}
+library(e1071)
+model=svm(kyphosis~.,data=x)
+pre=predict(model,data=x[,2:4])
+per=sum(pre==x[,1])/length(x[,1])
+sprintf("正確率為%s%%",per)
+```
+
+
+```{r}
+model=glm(kyphosis~.,data=x,family = "binomial")
+
+pre=model[[3]]
+pre[pre>0.5]="present"
+pre[pre<=0.5]="absent"
+
+per=sum(pre==x$kyphosis)/length(x[,1])
+sprintf("正確率為%s%%",per)
+```
+###2
+```{r}
+x=read.table(file="C:\\Users\\tsr\\Desktop\\2222\\test2-1.txt")
+y=read.table(file="C:\\Users\\tsr\\Desktop\\2222\\test2-2.txt")
+model=kmeans(x = x,centers = 4)
+model$cluster
+x[,4]=model$cluster
+x[,5]=y
+x=x[order(x[,4]),]
+
+modellist=list()
+label=paste("group",1:4,sep="")
+
+for (i in 1:4){
+  assign(label[i],x[x[,4]==i,])
+  modellist[[i]]=get(label[i])
+}
+modellist
+
+dd=x[,4]
+names(dd)=x[,5]
+
+hc = hclust(dist(dd))
+plot(hc)
+```
+
+
+###3
+```{r}
+###a
+x=read.table(file="C:\\Users\\tsr\\Desktop\\2222\\test3.txt",sep=",")
+###b
+plot(x$V4~x$V5,pch=21,bg=x$V1)
+
+###c
+library(MASS)
+for (i in 2:dim(x)[2]){
+  x[,i]=x[,i]-mean(x[,i])
+}
+
+
+ld=lda(x$V1~.,data=x)
+
+coef=ld[[4]]
+mx=as.matrix(x)
+newvar=mx[,2:14] %*% coef
+newvar=cbind(newvar,x[,1])
+
+z=predict(ld)
+per=sum(z$class==x[,1])/length(x[,1])
+sprintf("正確率為%s%%",per)
+plot(newvar[,1]~newvar[,2],pch=21,bg=z$class)
+mean1=mean(newvar[newvar[,3]==1,1])
+mean2=mean(newvar[newvar[,3]==2,1])
+mean3=mean(newvar[newvar[,3]==3,1])
+rule1=(mean1+mean2)/2
+rule2=(mean2+mean3)/2
+
+newvar=cbind(newvar,0)
+newvar[newvar[,1]<rule1,4]=1
+newvar[rule1<=newvar[,1]& newvar[,1] <=rule2,4]=2
+newvar[newvar[,1]>rule2,4]=3
+per=sum(newvar[,3]==newvar[,4])/length(newvar[,1])
+sprintf("正確率為%s%%",per)
+######
+
+```
