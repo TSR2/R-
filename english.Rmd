@@ -1,0 +1,19 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+
+```{r}
+an=read.table("C:\\Users\\tsr\\Desktop\\2222\\µª®×.txt")
+test=read.table("C:\\Users\\tsr\\Desktop\\2222\\¹ê§@.txt")
+test[,1]=as.character(test[,1])
+test1=rep("E",80)
+test1[1:length(test[,1])]=test[,1]
+num=c(1:80)
+num[!(an[,1]==test1)]
+
+
+```
+
+
