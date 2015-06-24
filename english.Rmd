@@ -5,15 +5,70 @@ output: html_document
 
 
 ```{r}
+library(knitr)
 an=read.table("C:\\Users\\tsr\\Desktop\\2222\\答案.txt")
 test=read.table("C:\\Users\\tsr\\Desktop\\2222\\實作.txt")
 test[,1]=as.character(test[,1])
 test1=rep("E",80)
 test1[1:length(test[,1])]=test[,1]
 num=c(1:80)
-num[!(an[,1]==test1)]
-
+a1=an[!(an[,1]==test1),1]
+a2=test1[!(an[,1]==test1)]
+a3=data.frame(a1,a2)
+colnames(a3)=c("正確答案","你的答案")
+rownames(a3)=num[!(an[,1]==test1)]
+kable(a3,caption = "字彙")
 
 ```
 
 
+```{r}
+an=read.table("C:\\Users\\tsr\\Desktop\\2222\\填空答案.txt")
+test=read.table("C:\\Users\\tsr\\Desktop\\2222\\填空實作.txt")
+pp=letters[1:10]
+pp=toupper(pp)
+name=c()
+ind=c(4,4,5,4,4,4,5,5,5,4)
+for (i in 1:10){
+  dd=paste(pp[i],1:ind[i],sep="")
+  name=c(name,dd)
+}
+an[,2]=name
+test[,1]=as.character(test[,1])
+test1=rep("E",44)
+test1[1:length(test[,1])]=test[,1]
+a1=an[!(an[,1]==test1),2]
+a2=an[!(an[,1]==test1),1]
+a4=test1[!(an[,1]==test1)]
+a3=data.frame(a2,a4)
+rownames(a3)=a1
+colnames(a3)=c("正確答案","你的答案")
+kable(a3,caption = "填空")
+```
+
+
+```{r}
+an=read.table("C:\\Users\\tsr\\Desktop\\2222\\閱讀答案.txt")
+test=read.table("C:\\Users\\tsr\\Desktop\\2222\\閱讀實作.txt")
+pp=letters[1:11]
+pp=toupper(pp)
+name=c()
+ind=c(5,4,5,3,3,3,3,4,4,4,4)
+for (i in 1:11){
+  dd=paste(pp[i],1:ind[i],sep="")
+  name=c(name,dd)
+}
+an[,2]=name
+test[,1]=as.character(test[,1])
+test1=rep("E",42)
+test1[1:length(test[,1])]=test[,1]
+a1=an[!(an[,1]==test1),2]
+a2=an[!(an[,1]==test1),1]
+a4=test1[!(an[,1]==test1)]
+a3=data.frame(a2,a4)
+rownames(a3)=a1
+colnames(a3)=c("正確答案","你的答案")
+kable(a3,caption = "閱讀")
+
+
+```
