@@ -64,18 +64,51 @@ img {
 </div>
 
 
+<pre class="r"><code>an=read.table(&quot;C:\\Users\\tsr\\Desktop\\2222\\答案2.txt&quot;,sep=&quot;\t&quot;)
+an</code></pre>
+<pre><code>##   V1 V2 V3 V4 V5 V6 V7 V8 V9 V10 V11 V12 V13 V14 V15 V16 V17 V18 V19 V20
+## 1  1  A  2  C  3  A  4  D  5   C   6   D   7   D   8   C   9   C  10   C
+## 2 11  C 12  A 13  A 14  C 15   D  16   B  17   A  18   C  19   D  20   C
+## 3 21  B 22  C 23  C 24  D 25   D  26   B  27   C  28   C  29   B  30   B
+## 4 31  C 32  C 33  B 34  A 35   A  36   B  37   B  38   B  39   B  40   B
+## 5 41  A 42  D 43  D 44  D 45   B  46   B  47   C  48   A  49   A  50   A
+## 6 51  D 52  B 53  B 54  D 55   D  56   D  57   B  58   C  59   D  60   A
+## 7 61  A 62  C 63  C 64  C 65   C  66   B  67   A  68   D  69   D  70   D</code></pre>
+<pre class="r"><code>an=an[,seq(2,20,by = 2)]
+n=c()
+an=as.matrix(an)
+for (i in 1:7) {
+  n=c(n,an[i,])
+}
+an=n</code></pre>
 <pre class="r"><code>library(knitr)
-an=read.table(&quot;C:\\Users\\tsr\\Desktop\\2222\\答案.txt&quot;)
-test=read.table(&quot;C:\\Users\\tsr\\Desktop\\2222\\實作.txt&quot;)
+an=read.table(&quot;C:\\Users\\tsr\\Desktop\\2222\\答案2.txt&quot;,sep=&quot;\t&quot;)
+an</code></pre>
+<pre><code>##   V1 V2 V3 V4 V5 V6 V7 V8 V9 V10 V11 V12 V13 V14 V15 V16 V17 V18 V19 V20
+## 1  1  A  2  C  3  A  4  D  5   C   6   D   7   D   8   C   9   C  10   C
+## 2 11  C 12  A 13  A 14  C 15   D  16   B  17   A  18   C  19   D  20   C
+## 3 21  B 22  C 23  C 24  D 25   D  26   B  27   C  28   C  29   B  30   B
+## 4 31  C 32  C 33  B 34  A 35   A  36   B  37   B  38   B  39   B  40   B
+## 5 41  A 42  D 43  D 44  D 45   B  46   B  47   C  48   A  49   A  50   A
+## 6 51  D 52  B 53  B 54  D 55   D  56   D  57   B  58   C  59   D  60   A
+## 7 61  A 62  C 63  C 64  C 65   C  66   B  67   A  68   D  69   D  70   D</code></pre>
+<pre class="r"><code>an=an[,seq(2,20,by = 2)]
+n=c()
+an=as.matrix(an)
+for (i in 1:7) {
+  n=c(n,an[i,])
+}
+an=n
+test=read.table(&quot;C:\\Users\\tsr\\Desktop\\2222\\蕭敬翰.txt&quot;)
 test[,1]=as.character(test[,1])
-test1=rep(&quot;E&quot;,80)
+test1=rep(&quot;E&quot;,70)
 test1[1:length(test[,1])]=test[,1]
-num=c(1:80)
-a1=an[!(an[,1]==test1),1]
-a2=test1[!(an[,1]==test1)]
+num=c(1:70)
+a1=an[!(an==test1)]
+a2=test1[!(an==test1)]
 a3=data.frame(a1,a2)
 colnames(a3)=c(&quot;正確答案&quot;,&quot;你的答案&quot;)
-rownames(a3)=num[!(an[,1]==test1)]
+rownames(a3)=num[!(an==test1)]
 kable(a3,caption = &quot;字彙&quot;)</code></pre>
 <table>
 <caption>字彙</caption>
@@ -88,9 +121,296 @@ kable(a3,caption = &quot;字彙&quot;)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">71</td>
+<td align="left">14</td>
+<td align="left">C</td>
+<td align="left">A</td>
+</tr>
+<tr class="even">
+<td align="left">27</td>
+<td align="left">C</td>
+<td align="left">D</td>
+</tr>
+<tr class="odd">
+<td align="left">30</td>
+<td align="left">B</td>
+<td align="left">D</td>
+</tr>
+<tr class="even">
+<td align="left">43</td>
+<td align="left">D</td>
+<td align="left">A</td>
+</tr>
+<tr class="odd">
+<td align="left">44</td>
+<td align="left">D</td>
+<td align="left">A</td>
+</tr>
+<tr class="even">
+<td align="left">47</td>
+<td align="left">C</td>
+<td align="left">B</td>
+</tr>
+<tr class="odd">
+<td align="left">48</td>
+<td align="left">A</td>
+<td align="left">D</td>
+</tr>
+<tr class="even">
+<td align="left">49</td>
+<td align="left">A</td>
+<td align="left">C</td>
+</tr>
+<tr class="odd">
+<td align="left">54</td>
+<td align="left">D</td>
+<td align="left">B</td>
+</tr>
+<tr class="even">
+<td align="left">55</td>
+<td align="left">D</td>
+<td align="left">A</td>
+</tr>
+<tr class="odd">
+<td align="left">61</td>
+<td align="left">A</td>
+<td align="left">C</td>
+</tr>
+<tr class="even">
+<td align="left">68</td>
+<td align="left">D</td>
+<td align="left">A</td>
+</tr>
+<tr class="odd">
+<td align="left">70</td>
+<td align="left">D</td>
+<td align="left">A</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>library(knitr)
+an=read.table(&quot;C:\\Users\\tsr\\Desktop\\2222\\答案2.txt&quot;,sep=&quot;\t&quot;)
+an</code></pre>
+<pre><code>##   V1 V2 V3 V4 V5 V6 V7 V8 V9 V10 V11 V12 V13 V14 V15 V16 V17 V18 V19 V20
+## 1  1  A  2  C  3  A  4  D  5   C   6   D   7   D   8   C   9   C  10   C
+## 2 11  C 12  A 13  A 14  C 15   D  16   B  17   A  18   C  19   D  20   C
+## 3 21  B 22  C 23  C 24  D 25   D  26   B  27   C  28   C  29   B  30   B
+## 4 31  C 32  C 33  B 34  A 35   A  36   B  37   B  38   B  39   B  40   B
+## 5 41  A 42  D 43  D 44  D 45   B  46   B  47   C  48   A  49   A  50   A
+## 6 51  D 52  B 53  B 54  D 55   D  56   D  57   B  58   C  59   D  60   A
+## 7 61  A 62  C 63  C 64  C 65   C  66   B  67   A  68   D  69   D  70   D</code></pre>
+<pre class="r"><code>an=an[,seq(2,20,by = 2)]
+n=c()
+an=as.matrix(an)
+for (i in 1:7) {
+  n=c(n,an[i,])
+}
+an=n
+test=read.table(&quot;C:\\Users\\tsr\\Desktop\\2222\\洪堂鈞.txt&quot;)
+test[,1]=as.character(test[,1])
+test1=rep(&quot;E&quot;,70)
+test1[1:length(test[,1])]=test[,1]
+num=c(1:70)
+a1=an[!(an==test1)]
+a2=test1[!(an==test1)]
+a3=data.frame(a1,a2)
+colnames(a3)=c(&quot;正確答案&quot;,&quot;你的答案&quot;)
+rownames(a3)=num[!(an==test1)]
+kable(a3,caption = &quot;字彙&quot;)</code></pre>
+<table>
+<caption>字彙</caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">正確答案</th>
+<th align="left">你的答案</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">29</td>
+<td align="left">B</td>
+<td align="left">A</td>
+</tr>
+<tr class="even">
+<td align="left">40</td>
+<td align="left">B</td>
+<td align="left">A</td>
+</tr>
+<tr class="odd">
+<td align="left">43</td>
+<td align="left">D</td>
+<td align="left">A</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>library(knitr)
+an=read.table(&quot;C:\\Users\\tsr\\Desktop\\2222\\答案2.txt&quot;,sep=&quot;\t&quot;)
+an</code></pre>
+<pre><code>##   V1 V2 V3 V4 V5 V6 V7 V8 V9 V10 V11 V12 V13 V14 V15 V16 V17 V18 V19 V20
+## 1  1  A  2  C  3  A  4  D  5   C   6   D   7   D   8   C   9   C  10   C
+## 2 11  C 12  A 13  A 14  C 15   D  16   B  17   A  18   C  19   D  20   C
+## 3 21  B 22  C 23  C 24  D 25   D  26   B  27   C  28   C  29   B  30   B
+## 4 31  C 32  C 33  B 34  A 35   A  36   B  37   B  38   B  39   B  40   B
+## 5 41  A 42  D 43  D 44  D 45   B  46   B  47   C  48   A  49   A  50   A
+## 6 51  D 52  B 53  B 54  D 55   D  56   D  57   B  58   C  59   D  60   A
+## 7 61  A 62  C 63  C 64  C 65   C  66   B  67   A  68   D  69   D  70   D</code></pre>
+<pre class="r"><code>an=an[,seq(2,20,by = 2)]
+n=c()
+an=as.matrix(an)
+for (i in 1:7) {
+  n=c(n,an[i,])
+}
+an=n
+test=read.table(&quot;C:\\Users\\tsr\\Desktop\\2222\\林.txt&quot;)
+test[,1]=as.character(test[,1])
+test1=rep(&quot;E&quot;,70)
+test1[1:length(test[,1])]=test[,1]
+num=c(1:70)
+a1=an[!(an==test1)]
+a2=test1[!(an==test1)]
+a3=data.frame(a1,a2)
+colnames(a3)=c(&quot;正確答案&quot;,&quot;你的答案&quot;)
+rownames(a3)=num[!(an==test1)]
+kable(a3,caption = &quot;字彙&quot;)</code></pre>
+<table>
+<caption>字彙</caption>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">正確答案</th>
+<th align="left">你的答案</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
 <td align="left">A</td>
 <td align="left">B</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">C</td>
+<td align="left">D</td>
+</tr>
+<tr class="odd">
+<td align="left">15</td>
+<td align="left">D</td>
+<td align="left">C</td>
+</tr>
+<tr class="even">
+<td align="left">18</td>
+<td align="left">C</td>
+<td align="left">B</td>
+</tr>
+<tr class="odd">
+<td align="left">27</td>
+<td align="left">C</td>
+<td align="left">D</td>
+</tr>
+<tr class="even">
+<td align="left">30</td>
+<td align="left">B</td>
+<td align="left">D</td>
+</tr>
+<tr class="odd">
+<td align="left">38</td>
+<td align="left">B</td>
+<td align="left">D</td>
+</tr>
+<tr class="even">
+<td align="left">40</td>
+<td align="left">B</td>
+<td align="left">C</td>
+</tr>
+<tr class="odd">
+<td align="left">42</td>
+<td align="left">D</td>
+<td align="left">B</td>
+</tr>
+<tr class="even">
+<td align="left">44</td>
+<td align="left">D</td>
+<td align="left">A</td>
+</tr>
+<tr class="odd">
+<td align="left">47</td>
+<td align="left">C</td>
+<td align="left">D</td>
+</tr>
+<tr class="even">
+<td align="left">48</td>
+<td align="left">A</td>
+<td align="left">D</td>
+</tr>
+<tr class="odd">
+<td align="left">49</td>
+<td align="left">A</td>
+<td align="left">D</td>
+</tr>
+<tr class="even">
+<td align="left">50</td>
+<td align="left">A</td>
+<td align="left">C</td>
+</tr>
+<tr class="odd">
+<td align="left">53</td>
+<td align="left">B</td>
+<td align="left">A</td>
+</tr>
+<tr class="even">
+<td align="left">54</td>
+<td align="left">D</td>
+<td align="left">C</td>
+</tr>
+<tr class="odd">
+<td align="left">55</td>
+<td align="left">D</td>
+<td align="left">A</td>
+</tr>
+<tr class="even">
+<td align="left">56</td>
+<td align="left">D</td>
+<td align="left">A</td>
+</tr>
+<tr class="odd">
+<td align="left">57</td>
+<td align="left">B</td>
+<td align="left">A</td>
+</tr>
+<tr class="even">
+<td align="left">58</td>
+<td align="left">C</td>
+<td align="left">B</td>
+</tr>
+<tr class="odd">
+<td align="left">59</td>
+<td align="left">D</td>
+<td align="left">C</td>
+</tr>
+<tr class="even">
+<td align="left">60</td>
+<td align="left">A</td>
+<td align="left">B</td>
+</tr>
+<tr class="odd">
+<td align="left">64</td>
+<td align="left">C</td>
+<td align="left">A</td>
+</tr>
+<tr class="even">
+<td align="left">65</td>
+<td align="left">C</td>
+<td align="left">B</td>
+</tr>
+<tr class="odd">
+<td align="left">68</td>
+<td align="left">D</td>
+<td align="left">A</td>
+</tr>
+<tr class="even">
+<td align="left">70</td>
+<td align="left">D</td>
+<td align="left">A</td>
 </tr>
 </tbody>
 </table>

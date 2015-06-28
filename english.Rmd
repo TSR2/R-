@@ -3,23 +3,94 @@ title: "Untitled"
 output: html_document
 ---
 
+```{r}
+an=read.table("C:\\Users\\tsr\\Desktop\\2222\\答案2.txt",sep="\t")
+an
+an=an[,seq(2,20,by = 2)]
+n=c()
+an=as.matrix(an)
+for (i in 1:7) {
+  n=c(n,an[i,])
+}
+an=n
+names(an)=c()
+```
+
+
 
 ```{r}
 library(knitr)
-an=read.table("C:\\Users\\tsr\\Desktop\\2222\\答案.txt")
-test=read.table("C:\\Users\\tsr\\Desktop\\2222\\實作.txt")
+an=read.table("C:\\Users\\tsr\\Desktop\\2222\\答案2.txt",sep="\t")
+an
+an=an[,seq(2,20,by = 2)]
+n=c()
+an=as.matrix(an)
+for (i in 1:7) {
+  n=c(n,an[i,])
+}
+an=n
+test=read.table("C:\\Users\\tsr\\Desktop\\2222\\蕭敬翰.txt")
 test[,1]=as.character(test[,1])
-test1=rep("E",80)
+test1=rep("E",70)
 test1[1:length(test[,1])]=test[,1]
-num=c(1:80)
-a1=an[!(an[,1]==test1),1]
-a2=test1[!(an[,1]==test1)]
+num=c(1:70)
+a1=an[!(an==test1)]
+a2=test1[!(an==test1)]
 a3=data.frame(a1,a2)
 colnames(a3)=c("正確答案","你的答案")
-rownames(a3)=num[!(an[,1]==test1)]
+rownames(a3)=num[!(an==test1)]
 kable(a3,caption = "字彙")
 
 ```
+
+```{r}
+library(knitr)
+an=read.table("C:\\Users\\tsr\\Desktop\\2222\\答案2.txt",sep="\t")
+an
+an=an[,seq(2,20,by = 2)]
+n=c()
+an=as.matrix(an)
+for (i in 1:7) {
+  n=c(n,an[i,])
+}
+an=n
+test=read.table("C:\\Users\\tsr\\Desktop\\2222\\洪堂鈞.txt")
+test[,1]=as.character(test[,1])
+test1=rep("E",70)
+test1[1:length(test[,1])]=test[,1]
+num=c(1:70)
+a1=an[!(an==test1)]
+a2=test1[!(an==test1)]
+a3=data.frame(a1,a2)
+colnames(a3)=c("正確答案","你的答案")
+rownames(a3)=num[!(an==test1)]
+kable(a3,caption = "字彙")
+```
+
+```{r}
+library(knitr)
+an=read.table("C:\\Users\\tsr\\Desktop\\2222\\答案2.txt",sep="\t")
+an
+an=an[,seq(2,20,by = 2)]
+n=c()
+an=as.matrix(an)
+for (i in 1:7) {
+  n=c(n,an[i,])
+}
+an=n
+test=read.table("C:\\Users\\tsr\\Desktop\\2222\\林.txt")
+test[,1]=as.character(test[,1])
+test1=rep("E",70)
+test1[1:length(test[,1])]=test[,1]
+num=c(1:70)
+a1=an[!(an==test1)]
+a2=test1[!(an==test1)]
+a3=data.frame(a1,a2)
+colnames(a3)=c("正確答案","你的答案")
+rownames(a3)=num[!(an==test1)]
+kable(a3,caption = "字彙")
+```
+
 
 
 ```{r}
