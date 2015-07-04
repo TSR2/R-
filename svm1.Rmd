@@ -1,6 +1,6 @@
 ---
 title: "svm"
-output: html_document
+output: word_document
 ---
 
 
