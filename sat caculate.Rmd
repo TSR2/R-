@@ -6,7 +6,7 @@ output: html_document
 
 ```{r}
 
-x=read.table(file="e:\\統計計算下\\heart.dat",head=T)
+x=read.table(file="f:\\統計計算下\\heart.dat",head=T)
 attach(x)
 d=grepl("ht",x$id)
 x$group=2
